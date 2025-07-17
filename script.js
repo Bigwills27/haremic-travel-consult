@@ -136,17 +136,19 @@ if (contactForm) {
     return emailRegex.test(email.trim());
   }
 
-  function validatePhone(phone) {
-    const phoneRegex = /^[\+]?[1-9][\d]{0,15}$/;
-    return phoneRegex.test(phone.replace(/[\s\-\(\)]/g, ""));
-  }
-
   function validateDate(date) {
     if (!date) return false;
     const selectedDate = new Date(date);
     const today = new Date();
     today.setHours(0, 0, 0, 0);
     return selectedDate >= today;
+  }
+
+  function validatePhone(phone) {
+    // Remove all non-digit characters
+    const digits = phone.replace(/\D/g, "");
+    // Check if it has 13 digits or less
+    return digits.length <= 13 && digits.length >= 7;
   }
 
   // Function to submit form to endpoints with fallback
@@ -229,7 +231,7 @@ if (contactForm) {
   if (phoneInput) {
     phoneInput.addEventListener("blur", function () {
       if (this.value.trim() && !validatePhone(this.value)) {
-        showError(this, "Please enter a valid phone number");
+        showError(this, "Please enter a valid phone number (max 13 digits)");
       } else {
         hideError(this);
       }
@@ -271,17 +273,10 @@ if (contactForm) {
     }
 
     if (phoneInput.value.trim() && !validatePhone(phoneInput.value)) {
-      showError(phoneInput, "Please enter a valid phone number");
-      isValid = false;
-    }
-
-    if (serviceSelect && !serviceSelect.value) {
-      showError(serviceSelect, "Please select a service");
-      isValid = false;
-    }
-
-    if (!destinationSelect.value) {
-      showError(destinationSelect, "Please select a destination");
+      showError(
+        phoneInput,
+        "Please enter a valid phone number (max 13 digits)"
+      );
       isValid = false;
     }
 
