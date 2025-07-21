@@ -56,12 +56,13 @@ body {
 }
 
 .logo {
-    width: 60px;
+    /* width: 60px; */
+    width: 150px;
     transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .main-nav.scaled .logo {
-    width: 48px;
+    width: 160px;
 }
 
 .desktop-navlinks {
@@ -1174,13 +1175,13 @@ body {
 }
 
 .btn-primary {
-    background: linear-gradient(135deg, var(--the-blue), var(--blue-dark));
+    background: var(--blue-dark);
     color: var(--white);
     box-shadow: 0 8px 32px rgba(14, 165, 233, 0.2);
 }
 
 .btn-primary:hover {
-    background: linear-gradient(135deg, var(--blue-dark), var(--the-blue));
+    background: var(--the-blue);
     transform: translateY(-2px);
     box-shadow: 0 12px 40px rgba(14, 165, 233, 0.3);
 }
@@ -1217,15 +1218,101 @@ body {
 }
 
 .error-message {
-    display: none;
+    display: block;
     color: #ef4444;
     font-size: 0.875rem;
     margin-top: 0.5rem;
     font-weight: 500;
+    min-height: 1.2rem;
+    opacity: 0;
+    transform: translateY(-10px);
+    transition: all 0.3s ease;
+    padding-left: 0.5rem;
+    line-height: 1.3;
 }
 
 .error-message:not(:empty) {
-    display: block;
+    opacity: 1;
+    transform: translateY(0);
+}
+
+/* Input container adjustments for error messages */
+.input-container {
+    position: relative;
+    margin-bottom: 0.5rem;
+}
+
+.form-group {
+    margin-bottom: 1.5rem;
+}
+
+/* Error icon for better visual feedback */
+.input-container.has-error::after {
+    content: '⚠';
+    position: absolute;
+    right: 1rem;
+    top: 1.7rem;
+    transform: translateY(-50%);
+    color: #ef4444;
+    font-size: 1rem;
+    z-index: 2;
+    pointer-events: none;
+}
+
+.input-container.has-error textarea::after {
+    top: 1rem;
+    transform: none;
+}
+
+/* Success states for better UX */
+.input-container input.success,
+.input-container select.success,
+.input-container textarea.success {
+    border-color: #10b981;
+    background: linear-gradient(135deg,
+            rgba(255, 255, 255, 0.9),
+            rgba(240, 253, 244, 0.8));
+    box-shadow: 0 0 0 3px rgba(16, 185, 129, 0.1);
+}
+
+.input-container.has-success::after {
+    content: '✓';
+    position: absolute;
+    right: 1rem;
+    top: 1.7rem;
+    transform: translateY(-50%);
+    color: #10b981;
+    font-size: 1rem;
+    z-index: 2;
+    pointer-events: none;
+}
+
+/* Improved form spacing with error messages */
+.form-row .form-group {
+    margin-bottom: 1.5rem;
+}
+
+/* Error message animation */
+@keyframes errorShake {
+
+    0%,
+    100% {
+        transform: translateX(0);
+    }
+
+    25% {
+        transform: translateX(-4px);
+    }
+
+    75% {
+        transform: translateX(4px);
+    }
+}
+
+.input-container input.error,
+.input-container select.error,
+.input-container textarea.error {
+    animation: errorShake 0.5s ease-in-out;
 }
 
 /* Form row adjustments for mobile */
@@ -1253,6 +1340,22 @@ body {
     .btn-secondary {
         justify-content: center;
         width: 100%;
+    }
+
+    /* Mobile adjustments for error messages */
+    .error-message {
+        font-size: 0.8rem;
+        padding-left: 0.25rem;
+    }
+
+    .input-container.has-error::after,
+    .input-container.has-success::after {
+        right: 0.75rem;
+        font-size: 0.9rem;
+    }
+
+    .form-group {
+        margin-bottom: 1.25rem;
     }
 }
 
@@ -1287,6 +1390,19 @@ body {
 
     .contact {
         padding-inline: 1rem;
+    }
+
+    /* Very small screens error adjustments */
+    .error-message {
+        font-size: 0.75rem;
+        margin-top: 0.25rem;
+    }
+
+    .input-container.has-error::after,
+    .input-container.has-success::after {
+        right: 0.5rem;
+        font-size: 0.8rem;
+        top: 1.5rem;
     }
 }
 

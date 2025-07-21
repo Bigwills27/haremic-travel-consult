@@ -145,10 +145,19 @@ if (contactForm) {
   }
 
   function validatePhone(phone) {
-    // Remove all non-digit characters
-    const digits = phone.replace(/\D/g, "");
-    // Check if it has 13 digits or less
-    return digits.length <= 13 && digits.length >= 7;
+    if (!phone || phone.trim() === "") return true; // Optional field
+
+    // Remove all spaces for validation
+    const cleanPhone = phone.replace(/\s/g, "");
+
+    // Check if it starts with +
+    if (cleanPhone.startsWith("+")) {
+      // For international format: +2349159739013 (14 characters total including +)
+      return cleanPhone.length === 14;
+    } else {
+      // For local format: 09159739013 (11 characters max)
+      return cleanPhone.length <= 11 && cleanPhone.length >= 10;
+    }
   }
 
   // Function to submit form to endpoints with fallback
@@ -185,13 +194,40 @@ if (contactForm) {
     }
   }
 
-  function showError(input, message) {
-    const errorSpan = input.parentNode.querySelector(".error-message");
-    if (errorSpan) {
-      errorSpan.textContent = message;
-      errorSpan.style.display = "block";
+  // Helper functions for error handling
+  function showError(element, message) {
+    const container = element.parentElement;
+    const errorElement = container.querySelector(".error-message");
+
+    element.classList.add("error");
+    element.classList.remove("success");
+    container.classList.add("has-error");
+    container.classList.remove("has-success");
+
+    if (errorElement) {
+      errorElement.textContent = message;
     }
-    input.classList.add("error");
+  }
+
+  function clearError(element) {
+    const container = element.parentElement;
+    const errorElement = container.querySelector(".error-message");
+
+    element.classList.remove("error");
+    element.classList.add("success");
+    container.classList.remove("has-error");
+    container.classList.add("has-success");
+
+    if (errorElement) {
+      errorElement.textContent = "";
+    }
+  }
+
+  function clearSuccess(element) {
+    const container = element.parentElement;
+
+    element.classList.remove("success");
+    container.classList.remove("has-success");
   }
 
   function hideError(input) {
@@ -207,33 +243,72 @@ if (contactForm) {
     inputs.forEach((input) => hideError(input));
   }
 
-  // Real-time validation
+  // Real-time validation improvements
   if (nameInput) {
     nameInput.addEventListener("blur", function () {
-      if (!validateName(this.value)) {
-        showError(this, "Please enter a valid name (at least 2 characters)");
+      const name = this.value.trim();
+
+      if (name && !validateName(name)) {
+        showError(this, "Name must be at least 2 characters long");
+      } else if (name) {
+        clearError(this);
       } else {
-        hideError(this);
+        clearSuccess(this);
+      }
+    });
+
+    nameInput.addEventListener("input", function () {
+      if (this.classList.contains("error") && validateName(this.value.trim())) {
+        clearError(this);
       }
     });
   }
 
   if (emailInput) {
     emailInput.addEventListener("blur", function () {
-      if (!validateEmail(this.value)) {
+      const email = this.value.trim();
+
+      if (email && !validateEmail(email)) {
         showError(this, "Please enter a valid email address");
+      } else if (email) {
+        clearError(this);
       } else {
-        hideError(this);
+        clearSuccess(this);
+      }
+    });
+
+    emailInput.addEventListener("input", function () {
+      if (
+        this.classList.contains("error") &&
+        validateEmail(this.value.trim())
+      ) {
+        clearError(this);
       }
     });
   }
 
   if (phoneInput) {
     phoneInput.addEventListener("blur", function () {
-      if (this.value.trim() && !validatePhone(this.value)) {
-        showError(this, "Please enter a valid phone number (max 13 digits)");
+      const phone = this.value.trim();
+
+      if (phone && !validatePhone(phone)) {
+        showError(
+          this,
+          "Invalid format. Use +2349159739013 (14 chars) or 09159739013 (max 11 chars)"
+        );
+      } else if (phone) {
+        clearError(this);
       } else {
-        hideError(this);
+        clearSuccess(this);
+      }
+    });
+
+    phoneInput.addEventListener("input", function () {
+      if (
+        this.classList.contains("error") &&
+        validatePhone(this.value.trim())
+      ) {
+        clearError(this);
       }
     });
   }
@@ -241,7 +316,7 @@ if (contactForm) {
   if (serviceSelect) {
     serviceSelect.addEventListener("change", function () {
       if (this.value) {
-        hideError(this);
+        clearError(this);
       }
     });
   }
@@ -249,7 +324,28 @@ if (contactForm) {
   if (destinationSelect) {
     destinationSelect.addEventListener("change", function () {
       if (this.value) {
-        hideError(this);
+        clearError(this);
+      }
+    });
+  }
+
+  if (messageTextarea) {
+    messageTextarea.addEventListener("blur", function () {
+      const message = this.value.trim();
+
+      if (message && message.length < 10) {
+        showError(this, "Message must be at least 10 characters long");
+      } else if (message) {
+        clearError(this);
+      } else {
+        clearSuccess(this);
+      }
+    });
+
+    messageTextarea.addEventListener("input", function () {
+      const message = this.value.trim();
+      if (this.classList.contains("error") && message.length >= 10) {
+        clearError(this);
       }
     });
   }
@@ -263,26 +359,37 @@ if (contactForm) {
 
     // Validate all fields
     if (!nameInput.value.trim() || !validateName(nameInput.value)) {
-      showError(nameInput, "Please enter a valid name (at least 2 characters)");
+      showError(nameInput, "Name must be at least 2 characters long");
       isValid = false;
+    } else {
+      clearError(nameInput);
     }
 
     if (!emailInput.value.trim() || !validateEmail(emailInput.value)) {
       showError(emailInput, "Please enter a valid email address");
       isValid = false;
+    } else {
+      clearError(emailInput);
     }
 
     if (phoneInput.value.trim() && !validatePhone(phoneInput.value)) {
       showError(
         phoneInput,
-        "Please enter a valid phone number (max 13 digits)"
+        "Invalid format. Use +2349159739013 (14 chars) or 09159739013 (max 11 chars)"
       );
       isValid = false;
+    } else if (phoneInput.value.trim()) {
+      clearError(phoneInput);
     }
 
-    if (!messageTextarea.value.trim()) {
-      showError(messageTextarea, "Please enter your message");
+    if (
+      !messageTextarea.value.trim() ||
+      messageTextarea.value.trim().length < 10
+    ) {
+      showError(messageTextarea, "Message must be at least 10 characters long");
       isValid = false;
+    } else {
+      clearError(messageTextarea);
     }
 
     if (isValid) {
