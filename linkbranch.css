@@ -1,0 +1,348 @@
+@import url('https://fonts.googleapis.com/css2?family=Funnel+Display:wght@300..800&display=swap');
+
+:root {
+    --red-chill: #ff2b2b;
+    --red-hover: #B91C1C;
+    --the-blue: #0EA5E9;
+    --blue-dark: #0284C7;
+    --blue-light: #38BDF8;
+    --white: #FCFCFC;
+    --gray-50: #F8FAFC;
+    --gray-100: #F1F5F9;
+    --gray-500: #64748B;
+    --gray-600: #475569;
+    --gray-900: #0F172A;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+@font-face {
+    font-family: 'qalinka';
+    src: url('./fonts/Qalinka.otf')
+}
+
+body {
+    font-family: "Funnel Display", sans-serif;
+    background: linear-gradient(135deg, var(--blue-dark), var(--the-blue));
+    min-height: 100vh;
+    padding: 2rem 1rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.container {
+    width: 100%;
+    max-width: 500px;
+    margin: 0 auto;
+}
+
+/* Profile Section */
+.profile-section {
+    text-align: center;
+    margin-bottom: 2rem;
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border-radius: 24px;
+    padding: 2.5rem 2rem;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+}
+
+.logo-container {
+    margin-bottom: 1.5rem;
+}
+
+.profile-logo {
+    width: 150px;
+    height: auto;
+    border-radius: 1rem;
+    background: var(--white);
+    padding: 0.5rem;
+    transition: transform 0.3s ease;
+}
+
+.profile-logo:hover {
+    transform: scale(1.05);
+}
+
+.profile-title {
+    font-family: 'qalinka', sans-serif;
+    font-size: 3rem;
+    font-weight: 400;
+    color: var(--white);
+    margin-bottom: 1rem;
+    text-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+    letter-spacing: 3px;
+}
+
+.profile-description {
+    color: rgba(255, 255, 255, 0.9);
+    font-size: 1.1rem;
+    line-height: 1.6;
+    max-width: 400px;
+    margin: 0 auto;
+}
+
+/* Links Section */
+.links-section {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    margin-bottom: 2rem;
+}
+
+.link-item {
+    display: flex;
+    align-items: center;
+    padding: 1.25rem 1.5rem;
+    background: rgba(255, 255, 255, 0.95);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border-radius: 16px;
+    text-decoration: none;
+    color: var(--gray-900);
+    transition: all 0.3s ease;
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+    position: relative;
+    overflow: hidden;
+}
+
+.link-item::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(135deg, var(--the-blue), var(--blue-light));
+    opacity: 0;
+    transition: all 0.3s ease;
+    z-index: -1;
+}
+
+.link-item:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.15);
+    color: var(--white);
+    border-color: var(--the-blue);
+}
+
+.link-item:hover::before {
+    left: 0;
+    opacity: 1;
+}
+
+.link-item:active {
+    transform: translateY(-1px);
+}
+
+.link-icon {
+    width: 50px;
+    height: 50px;
+    background: linear-gradient(135deg, var(--the-blue), var(--blue-light));
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--white);
+    margin-right: 1rem;
+    flex-shrink: 0;
+    transition: all 0.3s ease;
+}
+
+.link-item:hover .link-icon {
+    background: rgba(255, 255, 255, 0.2);
+    transform: scale(1.1);
+}
+
+.link-content {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+}
+
+.link-title {
+    font-size: 1.1rem;
+    font-weight: 600;
+    margin-bottom: 0.25rem;
+    transition: color 0.3s ease;
+}
+
+.link-subtitle {
+    font-size: 0.9rem;
+    color: var(--gray-600);
+    transition: color 0.3s ease;
+}
+
+.link-item:hover .link-subtitle {
+    color: rgba(255, 255, 255, 0.8);
+}
+
+/* Footer */
+.footer {
+    text-align: center;
+    padding: 1.5rem;
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border-radius: 16px;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+}
+
+.footer p {
+    color: rgba(255, 255, 255, 0.8);
+    font-size: 0.9rem;
+}
+
+/* Mobile Optimizations */
+@media (max-width: 768px) {
+    body {
+        padding: 1rem 0.75rem;
+    }
+
+    .profile-section {
+        padding: 2rem 1.5rem;
+        margin-bottom: 1.5rem;
+    }
+
+    .profile-logo {
+        width: 100px;
+    }
+
+    .profile-title {
+        font-size: 2rem;
+    }
+
+    .profile-description {
+        font-size: 1rem;
+    }
+
+    .link-item {
+        padding: 1rem 1.25rem;
+    }
+
+    .link-icon {
+        width: 45px;
+        height: 45px;
+    }
+
+    .link-title {
+        font-size: 1rem;
+    }
+
+    .link-subtitle {
+        font-size: 0.85rem;
+    }
+}
+
+@media (max-width: 480px) {
+    body {
+        padding: 0.75rem 0.5rem;
+    }
+
+    .profile-section {
+        padding: 1.5rem 1rem;
+    }
+
+    .profile-logo {
+        width: 80px;
+    }
+
+    .profile-title {
+        font-size: 1.75rem;
+    }
+
+    .link-item {
+        padding: 0.875rem 1rem;
+    }
+
+    .link-icon {
+        width: 40px;
+        height: 40px;
+        margin-right: 0.75rem;
+    }
+
+    .footer {
+        padding: 1rem;
+    }
+}
+
+/* Animation for page load */
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.profile-section {
+    animation: fadeInUp 0.6s ease-out;
+}
+
+.link-item {
+    animation: fadeInUp 0.6s ease-out;
+}
+
+.link-item:nth-child(1) {
+    animation-delay: 0.1s;
+}
+
+.link-item:nth-child(2) {
+    animation-delay: 0.2s;
+}
+
+.link-item:nth-child(3) {
+    animation-delay: 0.3s;
+}
+
+.link-item:nth-child(4) {
+    animation-delay: 0.4s;
+}
+
+.link-item:nth-child(5) {
+    animation-delay: 0.5s;
+}
+
+.footer {
+    animation: fadeInUp 0.6s ease-out 0.6s both;
+}
+
+/* Hover effects for better UX */
+.link-item:hover .link-icon svg {
+    transform: scale(1.1);
+    transition: transform 0.3s ease;
+}
+
+/* Focus states for accessibility */
+.link-item:focus {
+    outline: 2px solid var(--white);
+    outline-offset: 2px;
+}
+
+.link-item:focus:not(:focus-visible) {
+    outline: none;
+}
+
+/* High contrast mode support */
+@media (prefers-contrast: high) {
+    .link-item {
+        border: 2px solid var(--gray-900);
+    }
+
+    .link-item:hover {
+        border-color: var(--white);
+    }
+}
