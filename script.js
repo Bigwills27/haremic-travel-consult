@@ -112,7 +112,8 @@ const contactForm = document.querySelector("#contact-form");
 
 // Form submission endpoints with fallback
 const formEndpoints = [
-  "https://formspree.io/f/myzpgggg",
+  // "https://formspree.io/f/myzpgggg",
+  "https://formspree.io/f/xzzvrvwj",
   "https://submit-form.com/8bIc0Q0h8",
 ];
 
